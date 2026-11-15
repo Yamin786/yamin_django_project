@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<style>
+body{
+    background: #013e37;
+    color: #ffefb3;
+}
+ .navigation_container{
+    text-align:right;
+ }
+ .navigation_container a{
+    margin-right: 30px;
+ }
+button{
+    width: 85px;
+    height: 35px;
+    background : #ffefb3;
+    color: #013e37;
+    border-radius: 15px;
+ }
+.tagline{
+    font-size:45px;
+    color: white ;
+}
+.introduction{
+    font-size: 23px;
+    width: 600px;
+}
+.image{
+    width: 385px;
+    height : 290px;
+    margin-left: 35px
+}
+.imageP{
+    margin-left: 10px;
+}
+</style>
+
+    <div class='navigation_container'>
+    <a href={% url 'login'  %}><button>Login</button></a>
+    <a href={% url 'register'  %}><button>Reigster</button></a>
+
+    <a href={% url 'logout'  %}><button>Logout</button></a>
+    
+    
+    </div>
+
+    <div>
+        <p class="tagline">Welcome to the world of <span style='color: #ffefb3;font-size:50px;'>easy Coding</span> !! </p>
+        <h1 style="margin-left:165px;;margin-top:20px;">Hi this is <span style="color: white;font-size:35px;">Jamil.</span></h1>
+        <div style='display:flex;'>
+            <p class="introduction">Myself Mahfujul Haque Jamil. I am a backend developer. I have some other skills too. 
+            The different thing you will find within me is <br> <span style=" color: white;">"I CAN MAKE YOU UNDERSTAND WITH EASY EXAMPLE AND STORIES"</span> 
+            <br>You can not beat at some work :
+                <br> 1. TEACHING <br> 2. THINK EASY <br> 3. WORK HARD
+            </p>
+            <p class="imageP">
+                <img src="{% static 'hoodie.png' %}" class="image">
+            </p>
+        </div>
+    </div>
+    <a href={% url 'comments'  %}><button style="width: 200px; margin-left: 425px;">Peoples Reactions</button></a> 
+
+</body>
+</html>

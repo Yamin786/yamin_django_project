@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Posts | Yamin</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 30%),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: #667eea;
+            text-decoration: none;
+            letter-spacing: -.5px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .menu a {
+            position: relative;
+            text-decoration: none;
+            color: #444;
+            font-size: 15px;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .menu a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -7px;
+            width: 0;
+            height: 2px;
+            background: #667eea;
+            transition: .3s;
+        }
+
+        .menu a:hover {
+            color: #667eea;
+        }
+
+        .menu a:hover::after {
+            width: 100%;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: .3s;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 18px rgba(102,126,234,.35);
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 760px;
+            margin: auto;
+            padding: 45px 20px 60px;
+        }
+
+        .page-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        .page-title p {
+            color: rgba(255,255,255,.85);
+            font-size: 14px;
+        }
+
+        /* =========================
+           CREATE POST
+        ========================= */
+
+        .enter_form {
+            background: rgba(255,255,255,.98);
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 18px 45px rgba(0,0,0,.16);
+            margin-bottom: 28px;
+        }
+
+        .form-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 21px;
+            color: #222;
+            margin-bottom: 23px;
+        }
+
+        .enter_form form p {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .enter_form label {
+            margin-bottom: 8px;
+            color: #444;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .enter_form input,
+        .enter_form textarea,
+        .enter_form select {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            font-size: 15px;
+            background: #fafafa;
+            color: #333;
+            transition: .3s;
+        }
+
+        .enter_form input:focus,
+        .enter_form textarea:focus,
+        .enter_form select:focus {
+            background: white;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102,126,234,.12);
+        }
+
+        .enter_form textarea {
+            min-height: 130px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        /* IMAGE UPLOAD */
+
+        .enter_form input[type="file"] {
+            padding: 11px;
+            background: #f7f7ff;
+            border: 2px dashed #c8cdf5;
+            cursor: pointer;
+        }
+
+        .enter_form input[type="file"]:hover {
+            border-color: #667eea;
+            background: #f0f2ff;
+        }
+
+        .enter_form input[type="file"]::file-selector-button {
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 9px 14px;
+            border-radius: 7px;
+            margin-right: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .enter_form .helptext {
+            color: #888;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .enter_form .errorlist {
+            color: #dc3545;
+            list-style: none;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .post-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 4px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .post-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 20px rgba(102,126,234,.35);
+        }
+
+        /* =========================
+           POSTS CONTAINER
+        ========================= */
+
+        .posts {
+            background: rgba(255,255,255,.98);
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 18px 45px rgba(0,0,0,.16);
+        }
+
+        .posts-title {
+            color: #222;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .posts-subtitle {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        /* =========================
+           POST
+        ========================= */
+
+        .post {
+            padding: 24px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+            padding-bottom: 5px;
+        }
+
+        .post-user {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #667eea;
+            background: rgba(102,126,234,.1);
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 11px;
+        }
+
+        .post h3 {
+            color: #222;
+            font-size: 21px;
+            margin-bottom: 9px;
+            line-height: 1.3;
+        }
+
+        .post-text {
+            color: #666;
+            line-height: 1.7;
+            font-size: 15px;
+            white-space: pre-wrap;
+            margin-bottom: 15px;
+        }
+
+        /* =========================
+           POST IMAGE
+        ========================= */
+
+        .post-image-wrapper {
+            width: 350px;
+            height: 250px;
+            margin-left: 25px;
+            margin-top: 15px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #f4f4f4;
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 430px;
+            display: block;
+            object-fit: cover;
+            transition: transform .4s ease;
+        }
+
+        .post-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 17px;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .edit-btn {
+            background: rgba(102,126,234,.1);
+            color: #667eea;
+            text-decoration: none;
+            border: 1px solid rgba(102,126,234,.2);
+        }
+
+        .edit-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .delete-btn {
+            background: #fff1f1;
+            color: #dc3545;
+            border: 1px solid #ffd6d6;
+        }
+
+        .delete-btn:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .delete-form {
+            display: inline;
+        }
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty-posts {
+            text-align: center;
+            padding: 45px 10px 30px;
+            color: #888;
+        }
+
+        .empty-icon {
+            width: 65px;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #f1f3ff;
+            font-size: 30px;
+        }
+
+        .empty-posts p {
+            font-size: 14px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .menu {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .menu a {
+                font-size: 14px;
+            }
+
+            .logout-btn {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .page-wrapper {
+                padding: 30px 15px 45px;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+            }
+
+            .enter_form,
+            .posts {
+                padding: 24px 20px;
+                border-radius: 15px;
+            }
+
+            .post h3 {
+                font-size: 19px;
+            }
+
+            .post-image {
+                max-height: 350px;
+            }
+        }
+
+        @media (max-width: 400px) {
+
+            .menu {
+                gap: 13px;
+            }
+
+            .menu a {
+                font-size: 13px;
+            }
+
+            .post-actions {
+                flex-direction: column;
+            }
+
+            .edit-btn,
+            .delete-btn {
+                width: 100%;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+        <a href="{% url 'home' %}" class="logo">
+            Yamin
+        </a>
+
+        <ul class="menu">
+
+            <li>
+                <a href="{% url 'home' %}">Home</a>
+            </li>
+
+            <li>
+                <a href="{% url 'posts' %}">Posts</a>
+            </li>
+
+            <li>
+                <a href="{% url 'register' %}">Register</a>
+            </li>
+
+            <li>
+                <a href="{% url 'login' %}">Login</a>
+            </li>
+
+        </ul>
+
+        <a href="{% url 'logout' %}" class="logout-btn">
+            Logout
+        </a>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="page-wrapper">
+
+        <div class="page-title">
+            <h1>My Posts</h1>
+            <p>Share your thoughts with the community</p>
+        </div>
+
+
+        <!-- =========================
+             CREATE POST
+        ========================= -->
+
+        <section class="enter_form">
+
+            <h2 class="form-title">
+                ✍️ Create a New Post
+            </h2>
+
+            <!-- IMPORTANT:
+                 enctype is required for image/file upload
+            -->
+
+            <form method="post" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" class="post-btn">
+                    🚀 Publish Post
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             POSTS
+        ========================= -->
+
+        <section class="posts">
+
+            <h2 class="posts-title">
+                📝 Recent Posts
+            </h2>
+
+            <p class="posts-subtitle">
+                See what everyone is sharing
+            </p>
+
+
+            {% for post in posts %}
+
+                <article class="post">
+
+                    <span class="post-user">
+                        👤 {{ post.user }}
+                    </span>
+
+                    <h3>
+                        {{ post.heading }}
+                    </h3>
+
+                    <p class="post-text">
+                        {{ post.texts }}
+                    </p>
+
+
+                    <!-- =========================
+                         POST IMAGE
+                    ========================= -->
+
+                    {% if post.image %}
+
+                        <div class="post-image-wrapper">
+
+                            <img
+                                src="{{ post.image.url }}"
+                                alt="{{ post.heading }}"
+                                class="post-image"
+                            >
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- =========================
+                         ACTIONS
+                    ========================= -->
+
+                    {% if request.user == post.user %}
+
+                        <div class="post-actions">
+
+                            <a
+                                href="{% url 'edit' post.pk %}"
+                                class="edit-btn"
+                            >
+                                ✏️ Edit
+                            </a>
+
+                            <form
+                                method="POST"
+                                action="{% url 'delete' post.pk %}"
+                                class="delete-form"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="delete-btn"
+                                >
+                                    🗑️ Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    {% endif %}
+
+                </article>
+
+            {% empty %}
+
+                <div class="empty-posts">
+
+                    <div class="empty-icon">
+                        📭
+                    </div>
+
+                    <p>
+                        No posts yet. Be the first to share something!
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </section>
+
+    </main>
+
+</body>
+</html>

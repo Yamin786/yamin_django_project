@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Menubar</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .navbar {
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 40px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #222;
+      text-decoration: none;
+    }
+
+    .menu {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .menu a:hover {
+      color: #007bff;
+    }
+   
+    .button {
+      background: #007bff;
+      color: white;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .button:hover {
+      background: #0056b3;
+    }
+
+    /* Mobile */
+    @media (max-width: 700px) {
+      .navbar {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .menu {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <a href="#" class="logo">Yamin</a>
+
+    <ul class="menu">
+      <li><a href="{% url 'register' %}">Register</a></li>
+      <li><a href="{% url 'login' %}">Login</a></li>
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'posts' %}">Posts</a></li>
+    </ul>
+
+    <a href="{% url 'logout' %}" class="button">Logout</a>
+  </nav>
+    <p style="font-size: 72px; color: white;text-align: center;margin-top: 300px;">Yamin</p>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <style>
+    
+        /* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #013e37;
+}
+
+form label{
+    color : #013e37 ;
+    display:none;
+}
+
+form input{
+    margin: 10px ;
+    font-size : 20px;
+    width: 340px;
+    height:40px;
+    border-radius:10px;
+}
+form button{
+    width:370px;
+    height:40px;
+    font-size: 20px;
+    color : #ffefb3 ;
+    background : #013e37 ;
+}
+
+a{
+    margin : 20px;
+}
+
+p{
+    margin: 10px;
+    color : #013e37 ;
+}
+div{
+    padding : 20px;
+    background : #ffefb3;
+}
+
+
+
+ 
+    </style>
+<div>
+    <form  method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">log in</button>
+        <p>no registration yet ?  <a href={% url 'register'  %}>Register</a> <a href={% url 'home'  %}>Home</a></p>
+    </form>
+</div>
+</body>
+</html>

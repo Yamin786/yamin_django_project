@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body{
+            background: #013e37;
+            color : #ffefb3;
+        }
+        select{
+            height: 28px;
+            width: 180px;
+        }
+        textarea{
+            width: 1000px;
+            height: 130px;
+        }
+        button{
+            background:  #ffefb3;
+            color: #013e37;
+            height: 35px;
+            width: 200px;
+        }
+        label{
+            font-size:20px;
+        }
+
+    .comment_div{
+        color : black;
+        background : #ffefb3;
+        padding: 15px;
+        margin : 30px;
+    }
+    .useranddate{
+        display: flex;
+    }
+    .useranddate p{
+        width: 250px;
+    }
+    .comment_user{
+        font-size: 25px;
+        font-style:bold;
+    }
+    .creating_time{
+        text-align: right;
+        margin-left: 385px;
+    }
+    .navigation_container{
+    text-align:right;
+ }
+ .navigation_container a{
+    margin-right: 30px;
+ }
+ .navigation_container a button{
+    width: 85px;
+    height: 35px;
+    background : #ffefb3;
+    color: #013e37;
+    border-radius: 15px;
+ }
+.photo_class{
+    text-align:center;
+    align-items: center;
+}
+.photo_class img{
+    width: 300px;
+    height: 210px;
+    border-radius: 500px;
+    text-align : center;
+}
+
+    </style>
+
+    <div class='navigation_container'>
+    <a href={% url 'login'  %}><button>Login</button></a>
+    <a href={% url 'register'  %}><button>Reigster</button></a>
+
+    <a href={% url 'logout'  %}><button>Logout</button></a>
+    
+    
+    </div>
+
+
+<div class="form_container">
+    <form method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+        {{form.as_p}}
+
+
+        <button type="submit">Publish Comment</button>
+    </form>
+</div>
+
+    {% for comment in comments %}
+        <div class='comment_div'>
+            <div class="useranddate">
+            {% if comment.user == request.user %}
+                <p class='comment_user'> <span style='font-size:15px;'> reaction by </span> {{comment.user}} </p>
+               {% endif %}
+                <p class='creating_time'> {{comment.created_at}} </p>
+            </div>
+            
+            {% if comment.photo %}
+            <p class="photo_class">
+                <img src="{{ comment.photo.url }}" alt="">
+            </p>
+            {% endif %} 
+            <p class='description'> {{comment.comment_description}} </p> 
+        </div>
+    {% endfor %}
+</body>
+</html>
